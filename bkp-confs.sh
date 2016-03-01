@@ -1,12 +1,15 @@
 #!/bin/bash
 # Author: Yevgeniy Goncharov aka xck, http://sys-admin.k
 # Script for backup folder and files from list.txt
+#
+PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+SCRIPT_PATH=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
 
 # Variables
 # ---------------------------------------------------\
 FILEBACKUP=true
-LIST=`cat list.txt`
 DESTINATION="/dwn/bkp"
+LISTFILE="$SCRIPT_PATH/list.txt"
 FOLDERS=""
 
 DBBACKUP=false
@@ -15,8 +18,9 @@ dbpass=""
 
 # Days
 OLD=3
-# $(date +%d-%m-%Y_%H-%M-%S)
 
+# $(date +%d-%m-%Y_%H-%M-%S)
+# find /dwn/bkp/ -type f -exec rm {} \;
 
 # Backup folders (enable or disable use FILEBACKUP variable)
 # ---------------------------------------------------\
@@ -30,14 +34,16 @@ if $FILEBACKUP; then
 		    FOLDERS+="$line "
 	    fi
 
-	done < list.txt
+	done < $LISTFILE
+
+	tar -czf $DESTINATION/bkp.$(date +%d-%m-%Y).tar.gz $FOLDERS 2>&1 | grep -v  "Removing leading"
 
 else
 	echo "File backup disabled!"
 
 fi
 
-tar -czf $DESTINATION/bkp.$(date +%d-%m-%Y).tar.gz $FOLDERS 2>&1 | grep -v  "Removing leading"
+
 
 
 # Backup DBs (enable or disable use DBBACKUP variable)
