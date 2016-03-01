@@ -1,6 +1,20 @@
 # System
 /etc/httpd/
 /etc/ssh
+/etc/awstats
+/etc/dovecot
+/etc/mail
+/etc/nginx
+/etc/php.d
+/etc/ssl
+/var/named
 
-# Web
-/var/www/joomla.local/
+# Confs
+/etc/aliases
+/etc/crontab
+/etc/group
+/etc/passwd
+/etc/logrotate.conf
+/etc/php.ini
+/etc/my.cnf
+/etc/shadow
