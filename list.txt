@@ -1,0 +1,6 @@
+# System
+/etc/httpd/
+/etc/ssh
+
+# Web
+/var/www/joomla.local/
