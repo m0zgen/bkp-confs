@@ -21,32 +21,20 @@ OLD=3
 
 function check_fileExist() {
 	PASSED=$1
+
 	if [[ -d $PASSED ]]; then
-	    echo "$PASSED is a directory"
+	    # echo "$PASSED is a directory"
 	    return 1
 	elif [[ -f $PASSED ]]; then
-	    echo "$PASSED is a file"
+	    # echo "$PASSED is a file"
 	    return 1
 	else
-	    echo "$PASSED is not valid"
+	    # echo "$PASSED is not valid"
 	    return 0
 
 	fi
 }
 
-
-check_file(){
-
-        local file="${1}"
-        [[ -s "${file}" ]] || { echo "EMPTY"; return; }
-
-        echo "NOT EMPTY";
-
-        [[ -d "${file}" ]] && { echo "DIRECTORY"; return; }
-
-        echo "IS A FILE $file"
-
-    }
 
 # $(date +%d-%m-%Y_%H-%M-%S)
 # find /dwn/bkp/ -type f -exec rm {} \;
@@ -56,19 +44,24 @@ check_file(){
 
 if $FILEBACKUP; then
 
+	# Read data from list.txt
 	while read -r line; do
+		
 		# Cut comment lines
 	    if [[ -n "$line" && "$line" != [[:blank:]#]* ]]; then
 
+	    	# Check folder or file exist
 	    	if ! check_fileExist $line; then
-	    		echo "aaa"
+
+	    		# If exist, add to folder / files list
+	    		FOLDERS+="$line "
 	    	fi
 
-		    FOLDERS+="$line "
 	    fi
 
 	done < $LISTFILE
 
+	# Pack folder and files from FOLDERS list
 	tar -czf $DESTINATION/bkp.$(date +%d-%m-%Y).tar.gz $FOLDERS 2>&1 | grep -v  "Removing leading"
 
 else
@@ -77,13 +70,12 @@ else
 fi
 
 
-
-
 # Backup DBs (enable or disable use DBBACKUP variable)
 # ---------------------------------------------------\
 
 if $DBBACKUP; then
-	#statements
+	
+	# Connect to database server, show databases, grep database names
 	databases=`mysql -u $dbuser -p$dbpass -e "SHOW DATABASES;" | tr -d "| " | grep -v Database`
  
 	for db in $databases; do
@@ -98,7 +90,7 @@ else
 fi
 
 
-# Rotate
+# Rotate (check backup folder, find files age over OLD, them delete)
 # ---------------------------------------------------\
 
 for i in `find $DESTINATION -type f -mtime +$OLD`; do
