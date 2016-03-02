@@ -19,6 +19,9 @@ dbpass=""
 # Days
 OLD=3
 
+# Functions
+# ---------------------------------------------------\
+
 function check_fileExist() {
 	PASSED=$1
 
@@ -35,8 +38,10 @@ function check_fileExist() {
 	fi
 }
 
+function get_time {
+	echo $(date +%d-%m-%Y_%H-%M-%S)
+}
 
-# $(date +%d-%m-%Y_%H-%M-%S)
 # find /dwn/bkp/ -type f -exec rm {} \;
 
 # Backup folders (enable or disable use FILEBACKUP variable)
@@ -62,7 +67,7 @@ if $FILEBACKUP; then
 	done < $LISTFILE
 
 	# Pack folder and files from FOLDERS list
-	tar -czf $DESTINATION/bkp.$(date +%d-%m-%Y).tar.gz $FOLDERS 2>&1 | grep -v  "Removing leading"
+	tar -czf $DESTINATION/bkp.$(get_time).tar.gz $FOLDERS 2>&1 | grep -v  "Removing leading"
 
 else
 	echo "File backup disabled!"
@@ -81,8 +86,8 @@ if $DBBACKUP; then
 	for db in $databases; do
 	    if [[ "$db" != "information_schema" ]] && [[ "$db" != "performance_schema" ]] && [[ "$db" != _* ]] ; then
 	        echo "Dumping database: $db"
-	        mysqldump --force --opt -u $dbuser -p$dbpass --databases $db > $DESTINATION/$db.`date +%d-%m-%Y`.sql
-	        gzip -f $DESTINATION/$db.`date +%d-%m-%Y`.sql
+	        mysqldump --force --opt -u $dbuser -p$dbpass --databases $db > $DESTINATION/$db.$(get_time).sql
+	        gzip -f $DESTINATION/$db.$(get_time).sql
 	    fi
 	done
 else
