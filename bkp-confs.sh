@@ -39,7 +39,8 @@ function check_fileExist() {
 }
 
 function get_time {
-	echo $(date +%d-%m-%Y_%H-%M-%S)
+	# echo $(date +%d-%m-%Y_%H-%M-%S)
+	echo $(date +%d-%m-%Y_%H)
 }
 
 # find /dwn/bkp/ -type f -exec rm {} \;
@@ -67,7 +68,7 @@ if $FILEBACKUP; then
 	done < $LISTFILE
 
 	# Pack folder and files from FOLDERS list
-	tar -czf $DESTINATION/bkp.$(get_time).tar.gz $FOLDERS 2>&1 | grep -v  "Removing leading"
+	tar -czf $DESTINATION/bkp-from-list.$(get_time).tar.gz $FOLDERS 2>&1 | grep -v  "Removing leading"
 
 else
 	echo "File backup disabled!"
@@ -88,6 +89,7 @@ if $DBBACKUP; then
 	        echo "Dumping database: $db"
 	        mysqldump --force --opt -u $dbuser -p$dbpass --databases $db > $DESTINATION/$db.$(get_time).sql
 	        gzip -f $DESTINATION/$db.$(get_time).sql
+	        rm -rf $DESTINATION/$db.$(get_time).sql
 	    fi
 	done
 else
