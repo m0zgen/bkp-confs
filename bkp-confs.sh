@@ -7,20 +7,55 @@ SCRIPT_PATH=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
 
 # Variables
 # ---------------------------------------------------\
-FILEBACKUP=true
-DESTINATION="/dwn/bkp"
+HOSTNAME=`hostname`
+
 LISTFILE="$SCRIPT_PATH/list.txt"
 FOLDERS=""
 
+# Enable or disable backup files and folders
+FILEBACKUP=true
+DESTINATION="/dwn/bkp"
+
+# Enable or disable database backups
 DBBACKUP=false
 dbuser=""
 dbpass=""
 
+# Dumps from command executes
+DUMPBACKUP=true
+DUMPS="$DESTINATION/dumps"
+
+# Enable or disable remote backups
+REMOTEBACKUP=false
+WINSHARE="//server/share$"
+MOUNTSHARE="/mnt/remote-bkp"
+REMOTEUSER=""
+REMOTEUSERPASS=""
+
 # Days
-OLD=3
+OLD=30
 
 # Functions
 # ---------------------------------------------------\
+
+function backupCrontabCurrentUser {
+
+	crontab -l > $DUMPS/crontab.txt
+
+}
+
+function checkfolder {
+
+	# Проверяем на наличие существующих
+	if [ -d "$1" ]
+		then
+		echo "Check $1 succesfully!"
+	else
+		echo "Create $1 ..."
+		mkdir -p $1
+	fi
+
+}
 
 function check_fileExist() {
 	PASSED=$1
@@ -43,11 +78,40 @@ function get_time {
 	echo $(date +%d-%m-%Y_%H)
 }
 
+function mountFolder {
+
+	# Mount
+	if mount|grep $MOUNTSHARE > /dev/null 2>&1; then
+	echo -e "\nAlready mounted...\n"
+	else
+		echo -e "\nNot mounted... Mounting....\n"
+		/usr/bin/mount -t cifs -o username=$REMOTEUSER,password=$REMOTEUSERPASS $WINSHARE $MOUNTSHARE
+		sleep 2
+	fi
+}
+
+function umountFolder {
+
+	# Umount
+	if mount|grep $LOCALMNTFOLDER > /dev/null 2>&1; then
+		sleep 2
+		umount -f -a -t cifs -l
+		sleep 2
+	else
+		echo "Mounted... unmount..."		
+	fi
+
+}
+
 # find /dwn/bkp/ -type f -exec rm {} \;
 
 # Backup folders (enable or disable use FILEBACKUP variable)
 # ---------------------------------------------------\
 
+checkfolder "$DESTINATION"
+checkfolder "$DUMPS"
+
+# Backup files and folders from list.txt
 if $FILEBACKUP; then
 
 	# Read data from list.txt
@@ -67,14 +131,22 @@ if $FILEBACKUP; then
 
 	done < $LISTFILE
 
+	# Backup command results to file dumps
+	if $DUMPBACKUP; then
+
+		backupCrontabCurrentUser
+		FOLDERS+="$DUMPS"
+
+	fi
+
 	# Pack folder and files from FOLDERS list
 	tar -czf $DESTINATION/bkp-from-list.$(get_time).tar.gz $FOLDERS 2>&1 | grep -v  "Removing leading"
+	rm -rf $DUMPS
 
 else
 	echo "File backup disabled!"
 
 fi
-
 
 # Backup DBs (enable or disable use DBBACKUP variable)
 # ---------------------------------------------------\
@@ -95,6 +167,30 @@ if $DBBACKUP; then
 else
 	echo "DB backup disabled!"	
 fi
+
+# Copy backup to remote
+# ---------------------------------------------------\
+if $REMOTEBACKUP; then
+
+	# Create and mount folders
+	checkfolder $MOUNTSHARE
+	mountFolder
+
+	# Checking and create host folder for backups
+	HOSTFOLDER=$MOUNTSHARE/$HOSTNAME
+	checkfolder $HOSTFOLDER
+
+	# Copy fom local backup to remote
+	rsync -av --delete $DESTINATION $HOSTFOLDER
+	
+	# Umount mounted share
+	umount $MOUNTSHARE
+
+fi
+
+
+
+
 
 
 # Rotate (check backup folder, find files age over OLD, them delete)

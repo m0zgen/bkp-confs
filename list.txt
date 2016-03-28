@@ -1,4 +1,4 @@
-# System
+# System folders
 /etc/httpd/
 /etc/ssh
 /etc/awstats
@@ -18,3 +18,16 @@
 /etc/php.ini
 /etc/my.cnf
 /etc/shadow
+/etc/hosts
+/etc/resolv.conf
+/etc/php.ini
+/etc/default/grub
+/etc/sysconfig/network-scripts
+
+# Custom
+/prg
+
+# Users
+/root
+
+
