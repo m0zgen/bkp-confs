@@ -1,4 +1,4 @@
-# System folders
+# Folders
 /etc/httpd/
 /etc/ssh
 /etc/awstats
@@ -8,6 +8,16 @@
 /etc/php.d
 /etc/ssl
 /var/named
+/etc/squid
+/etc/yum.repos.d
+/etc/dnf
+/etc/sysconfig
+/etc/fail2nan
+/etc/ipset
+
+# Mail
+/etc/exim
+/etc/postfix
 
 # Confs
 /etc/aliases
@@ -21,8 +31,10 @@
 /etc/hosts
 /etc/resolv.conf
 /etc/php.ini
+/etc/php-fpm.conf
+/etc/named.conf
+/etc/ntp.conf
 /etc/default/grub
-/etc/sysconfig/network-scripts
 
 # Custom
 /prg
