@@ -26,11 +26,11 @@ DUMPBACKUP=true
 DUMPS="$DESTINATION/dumps"
 
 # Enable or disable remote backups
-REMOTEBACKUP=false
-WINSHARE="//server/share$"
+REMOTEBACKUP=true
+WINSHARE="//server/kvm-backup$"
 MOUNTSHARE="/mnt/remote-bkp"
-REMOTEUSER=""
-REMOTEUSERPASS=""
+REMOTEUSER="user"
+REMOTEUSERPASS="pass"
 
 # Days
 OLD=30
@@ -177,7 +177,7 @@ if $REMOTEBACKUP; then
 	mountFolder
 
 	# Checking and create host folder for backups
-	HOSTFOLDER=$MOUNTSHARE/$HOSTNAME
+	HOSTFOLDER=$MOUNTSHARE/$HOSTNAME-confs
 	checkfolder $HOSTFOLDER
 
 	# Copy fom local backup to remote
