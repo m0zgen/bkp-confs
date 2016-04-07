@@ -14,6 +14,7 @@
 /etc/sysconfig
 /etc/fail2nan
 /etc/ipset
+/run/libvirt/qemu
 
 # Mail
 /etc/exim
