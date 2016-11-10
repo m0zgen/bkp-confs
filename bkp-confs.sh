@@ -14,19 +14,19 @@ FOLDERS=""
 
 # Enable or disable backup files and folders
 FILEBACKUP=true
-DESTINATION="/dwn/bkp"
+DESTINATION="/bkp"
+
+# Dumps from command executes
+DUMPBACKUP=true
+DUMPS="$DESTINATION/dumps"
 
 # Enable or disable database backups
 DBBACKUP=false
 dbuser=""
 dbpass=""
 
-# Dumps from command executes
-DUMPBACKUP=true
-DUMPS="$DESTINATION/dumps"
-
 # Enable or disable remote backups
-REMOTEBACKUP=true
+REMOTEBACKUP=false
 WINSHARE="//server/kvm-backup$"
 MOUNTSHARE="/mnt/remote-bkp"
 REMOTEUSER="user"
@@ -98,7 +98,7 @@ function umountFolder {
 		umount -f -a -t cifs -l
 		sleep 2
 	else
-		echo "Mounted... unmount..."		
+		echo "Mounted... unmount..."
 	fi
 
 }
@@ -116,7 +116,7 @@ if $FILEBACKUP; then
 
 	# Read data from list.txt
 	while read -r line; do
-		
+
 		# Cut comment lines
 	    if [[ -n "$line" && "$line" != [[:blank:]#]* ]]; then
 
@@ -152,10 +152,10 @@ fi
 # ---------------------------------------------------\
 
 if $DBBACKUP; then
-	
+
 	# Connect to database server, show databases, grep database names
 	databases=`mysql -u $dbuser -p$dbpass -e "SHOW DATABASES;" | tr -d "| " | grep -v Database`
- 
+
 	for db in $databases; do
 	    if [[ "$db" != "information_schema" ]] && [[ "$db" != "performance_schema" ]] && [[ "$db" != _* ]] ; then
 	        echo "Dumping database: $db"
@@ -165,7 +165,7 @@ if $DBBACKUP; then
 	    fi
 	done
 else
-	echo "DB backup disabled!"	
+	echo "DB backup disabled!"
 fi
 
 # Copy backup to remote
@@ -182,7 +182,7 @@ if $REMOTEBACKUP; then
 
 	# Copy fom local backup to remote
 	rsync -av --delete $DESTINATION $HOSTFOLDER
-	
+
 	# Umount mounted share
 	umount $MOUNTSHARE
 
