@@ -38,6 +38,8 @@
 /etc/named.conf
 /etc/ntp.conf
 /etc/default/grub
+/etc/rsyslog.conf
+/etc/systemd/journald.conf
 
 # Custom
 /prg
