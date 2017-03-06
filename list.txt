@@ -14,7 +14,10 @@
 /etc/sysconfig
 /etc/fail2nan
 /etc/ipset
+/etc/hosts
 /run/libvirt/qemu
+/etc/sysconfig/network-scripts
+/usr/local/sbin
 
 # Mail
 /etc/exim
@@ -31,7 +34,6 @@
 /etc/shadow
 /etc/hosts
 /etc/resolv.conf
-/etc/php.ini
 /etc/php-fpm.conf
 /etc/named.conf
 /etc/ntp.conf
