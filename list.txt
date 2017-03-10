@@ -18,6 +18,8 @@
 /run/libvirt/qemu
 /etc/sysconfig/network-scripts
 /usr/local/sbin
+/etc/elasticsearch/
+/etc/graylog
 
 # Mail
 /etc/exim
