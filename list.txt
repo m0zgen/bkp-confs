@@ -1,25 +1,24 @@
 # Folders
-/etc/httpd/
-/etc/ssh
 /etc/awstats
 /etc/dovecot
+/etc/dnf
+/etc/elasticsearch/
+/etc/fail2nan
+/etc/graylog
+/etc/hosts
+/etc/httpd/
+/run/libvirt/qemu
+/usr/local/sbin
 /etc/mail
+/var/named
 /etc/nginx
 /etc/php.d
-/etc/ssl
-/var/named
-/etc/squid
 /etc/yum.repos.d
-/etc/dnf
-/etc/sysconfig
-/etc/fail2nan
 /etc/ipset
-/etc/hosts
-/run/libvirt/qemu
-/etc/sysconfig/network-scripts
-/usr/local/sbin
-/etc/elasticsearch/
-/etc/graylog
+/etc/squid
+/etc/sysconfig
+/etc/ssh
+/etc/ssl
 
 # Mail
 /etc/exim
@@ -28,20 +27,22 @@
 # Confs
 /etc/aliases
 /etc/crontab
+/etc/default/grub
 /etc/group
+/etc/hosts
 /etc/passwd
 /etc/logrotate.conf
 /etc/php.ini
 /etc/my.cnf
-/etc/shadow
-/etc/hosts
-/etc/resolv.conf
-/etc/php-fpm.conf
 /etc/named.conf
 /etc/ntp.conf
-/etc/default/grub
+/etc/krb5.conf
+/etc/resolv.conf
 /etc/rsyslog.conf
+/etc/sssd/sssd.conf
+/etc/shadow
 /etc/systemd/journald.conf
+/etc/php-fpm.conf
 
 # Custom
 /prg
