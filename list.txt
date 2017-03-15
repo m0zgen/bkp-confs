@@ -34,6 +34,8 @@
 /etc/logrotate.conf
 /etc/php.ini
 /etc/my.cnf
+/etc/momd.conf
+/etc/ksmtuned.conf
 /etc/named.conf
 /etc/ntp.conf
 /etc/krb5.conf
