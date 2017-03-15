@@ -27,6 +27,7 @@
 # Confs
 /etc/aliases
 /etc/crontab
+/etc/chrony.conf
 /etc/default/grub
 /etc/group
 /etc/hosts
