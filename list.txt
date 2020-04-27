@@ -13,12 +13,14 @@
 /var/named
 /etc/nginx
 /etc/php.d
+/etc/php-fpm.d
 /etc/yum.repos.d
 /etc/ipset
 /etc/squid
 /etc/sysconfig
 /etc/ssh
 /etc/ssl
+/srv/www
 
 # Mail
 /etc/exim
