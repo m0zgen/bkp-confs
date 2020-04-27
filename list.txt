@@ -1,58 +1,10 @@
 # Folders
-/etc/awstats
-/etc/dovecot
-/etc/dnf
-/etc/elasticsearch/
-/etc/fail2nan
-/etc/graylog
-/etc/hosts
-/etc/httpd/
-/run/libvirt/qemu
-/usr/local/sbin
-/etc/mail
-/var/named
-/etc/nginx
-/etc/php.d
-/etc/php-fpm.d
-/etc/yum.repos.d
-/etc/ipset
-/etc/squid
-/etc/sysconfig
-/etc/ssh
-/etc/ssl
-/srv/www
-
-# Mail
-/etc/exim
-/etc/postfix
-
-# Confs
-/etc/aliases
-/etc/crontab
-/etc/chrony.conf
-/etc/default/grub
-/etc/group
-/etc/hosts
-/etc/passwd
-/etc/logrotate.conf
-/etc/php.ini
-/etc/my.cnf
-/etc/momd.conf
-/etc/ksmtuned.conf
-/etc/named.conf
-/etc/ntp.conf
-/etc/krb5.conf
-/etc/resolv.conf
-/etc/rsyslog.conf
-/etc/sssd/sssd.conf
-/etc/shadow
-/etc/systemd/journald.conf
-/etc/php-fpm.conf
-
-# Custom
-/prg
+/etc
 
 # Users
 /root
+
+# Web
+/srv/www
 
 
