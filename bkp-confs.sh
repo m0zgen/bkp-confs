@@ -140,7 +140,7 @@ if $FILEBACKUP; then
 	fi
 
 	# Pack folder and files from FOLDERS list
-	tar -czf $DESTINATION/bkp-from-list.$(get_time).tar.gz $FOLDERS 2>&1 | grep -v  "Removing leading"
+	tar -czf $DESTINATION/bkp-$HOSTNAME.$(get_time).tar.gz $FOLDERS 2>&1 | grep -v  "Removing leading"
 	rm -rf $DUMPS
 
 else
