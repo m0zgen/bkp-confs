@@ -14,16 +14,21 @@ FOLDERS=""
 
 # Enable or disable backup files and folders
 FILEBACKUP=true
-DESTINATION="/bkp"
+DESTINATION="/dest-bkp"
 
 # Dumps from command executes
 DUMPBACKUP=true
 DUMPS="$DESTINATION/dumps"
 
-# Enable or disable database backups
+# Enable or disable MySQL database backups
 DBBACKUP=false
 dbuser=""
 dbpass=""
+
+# Enable or disable Mongo database backups
+MONGOBACKUP=false
+mdbuser=""
+mdbpass=""
 
 # Enable or disable remote backups
 REMOTEBACKUP=false
@@ -168,10 +173,28 @@ else
 	echo "DB backup disabled!"
 fi
 
+# Backup DBs (enable or disable use MONGOBACKUP variable)
+# ---------------------------------------------------\
+
+if $MONGOBACKUP; then
+
+	#TODO - add checking mongodb exists
+	MONGOBKPFOLDER="$DESTINATION/mongo/"
+
+	checkfolder $MONGOBKPFOLDER
+
+	mongodump --host=localhost --port=27017 --out=$MONGOBKPFOLDER
+
+	tar -czf $DESTINATION/bkp-mongo-$HOSTNAME.$(get_time).tar.gz $MONGOBKPFOLDER 2>&1 | grep -v  "Removing leading"
+	rm -rf $MONGOBKPFOLDER
+
+else
+	echo "MongoDB backup disabled!"
+fi
+
 # Copy backup to remote
 # ---------------------------------------------------\
 if $REMOTEBACKUP; then
-
 	# Create and mount folders
 	checkfolder $MOUNTSHARE
 	mountFolder
@@ -185,12 +208,7 @@ if $REMOTEBACKUP; then
 
 	# Umount mounted share
 	umount $MOUNTSHARE
-
 fi
-
-
-
-
 
 
 # Rotate (check backup folder, find files age over OLD, them delete)
