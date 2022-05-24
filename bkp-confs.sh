@@ -12,11 +12,11 @@ HOSTNAME=`hostname`
 LISTFILE="$SCRIPT_PATH/list.txt"
 FOLDERS=""
 
-# Enable or disable backup files and folders
+# Enable or disable backup files and folders from list.txt
 FILEBACKUP=true
 DESTINATION="/dest-bkp"
 
-# Dumps from command executes
+# Dumps from command executes aka crontabs
 DUMPBACKUP=true
 DUMPS="$DESTINATION/dumps"
 
@@ -30,14 +30,14 @@ MONGOBACKUP=false
 mdbuser=""
 mdbpass=""
 
-# Enable or disable remote backups
+# Enable or disable remote backups (need cifs)
 REMOTEBACKUP=false
 WINSHARE="//server/kvm-backup$"
 MOUNTSHARE="/mnt/remote-bkp"
 REMOTEUSER="user"
 REMOTEUSERPASS="pass"
 
-# Days
+# How long store backups in DESTINATION
 OLD=30
 
 # Functions
