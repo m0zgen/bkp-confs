@@ -4,10 +4,12 @@
 #
 PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 SCRIPT_PATH=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
+SCRIPT_NAME=${0##*/}
 
-# Variables
+# Init Variables
 # ---------------------------------------------------\
 HOSTNAME=`hostname`
+SERVER_IP=`hostname -I`
 
 LISTFILE="$SCRIPT_PATH/list.txt"
 FOLDERS=""
@@ -39,6 +41,77 @@ REMOTEUSERPASS="pass"
 
 # How long store backups in DESTINATION
 OLD=30
+
+# Output messages
+# ---------------------------------------------------\
+
+# And colors
+RED='\033[0;91m'
+GREEN='\033[0;92m'
+CYAN='\033[0;96m'
+YELLOW='\033[0;93m'
+PURPLE='\033[0;95m'
+BLUE='\033[0;94m'
+BOLD='\033[1m'
+WHiTE="\e[1;37m"
+NC='\033[0m'
+
+ON_SUCCESS="DONE"
+ON_FAIL="FAIL"
+ON_ERROR="Oops"
+ON_CHECK="✓"
+
+Info() {
+  echo -en "[${1}] ${GREEN}${2}${NC}\n"
+}
+
+Warn() {
+  echo -en "[${1}] ${PURPLE}${2}${NC}\n"
+}
+
+Success() {
+  echo -en "[${1}] ${GREEN}${2}${NC}\n"
+}
+
+Error () {
+  echo -en "[${1}] ${RED}${2}${NC}\n"
+}
+
+Splash() {
+  echo -en "${WHiTE} ${1}${NC}\n"
+}
+
+space() { 
+  echo -e ""
+}
+
+# Helpers
+# ---------------------------------------------------\
+# Help information
+usage() {
+
+	space
+	Info "Info" "Script usage information:"
+	Info "$ON_CHECK" "./$SCRIPT_NAME	: Local backup (from $LISTFILE)"
+	Info "$ON_CHECK" "./$SCRIPT_NAME -r	: Remote backup over SSH ($LISTFILE will be automatically copied to remote server)"
+	space
+	Info "Info" "Remote example:"
+	Info "$ON_CHECK" "ssh server < ./$SCRIPT_NAME -r"
+	space
+	
+	exit 1
+
+}
+
+# Checks arguments
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        -r|--remote) REMOTE=1; ;;
+		-h|--help) usage ;;	
+        *) echo "Unknown parameter passed: $1"; exit 1 ;;
+    esac
+    shift
+done
 
 # Functions
 # ---------------------------------------------------\
