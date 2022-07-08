@@ -1,7 +1,7 @@
 #!/bin/bash
-# Author: Yevgeniy Goncharov aka xck, http://sys-admin.k
+# Author: Yevgeniy Goncharov aka xck, http://sys-adm.in
 # Script for backup folder and files from list.txt
-#
+
 PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 SCRIPT_PATH=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
 SCRIPT_NAME=${0##*/}
